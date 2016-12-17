@@ -23,7 +23,6 @@ public class JettyServerConfig {
 //    String KEYSTORE_PASS = sharedAppConfigsIF.getKeystorepass();
 //    String KEYSTORE_MGR_PASS = sharedAppConfigsIF.getKeystoremanagerpass();
 //    String[] WELCOME_FILES = (sharedAppConfigsIF.getWelcomefiles().trim()).split("\\s*,\\s*");
-//
 //    String resourceBase = sharedAppConfigsIF.getResourceDirAbsPath();
 //    String webDescriptor = resourceBase + sharedAppConfigsIF.getWebxmlfile();
     private final String contextPath;
