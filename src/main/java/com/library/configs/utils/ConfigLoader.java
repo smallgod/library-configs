@@ -73,7 +73,9 @@ public class ConfigLoader {
     public DSMAdXpoBridgeConfigs getDSMAdXpoBridgeConfigs() {
 
         String webAppHomeDir = appConfig.getDsmWebAppDir();
-        DSMAdXpoBridgeConfigs config = new DSMAdXpoBridgeConfigs(webAppHomeDir);
+        String xsdFilesDir = appConfig.getXsdFilesDir();
+        
+        DSMAdXpoBridgeConfigs config = new DSMAdXpoBridgeConfigs(webAppHomeDir, xsdFilesDir);
         return config;
     }
 }

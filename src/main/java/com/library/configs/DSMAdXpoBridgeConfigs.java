@@ -12,9 +12,11 @@ package com.library.configs;
 public class DSMAdXpoBridgeConfigs {
 
     private final String dsm8WebAppHome;
+    private final String xsdFilesDir;
 
-    public DSMAdXpoBridgeConfigs(String dsm8WebAppHome) {
+    public DSMAdXpoBridgeConfigs(String dsm8WebAppHome, String xsdFilesDir) {
         this.dsm8WebAppHome = dsm8WebAppHome;
+        this.xsdFilesDir = xsdFilesDir;
     }
 
     /**
@@ -22,6 +24,13 @@ public class DSMAdXpoBridgeConfigs {
      */
     public String getDsm8WebAppHome() {
         return dsm8WebAppHome;
+    }
+
+    /**
+    * @return the xsdFilesDir
+    */
+    public String getXsdFilesDir() {
+        return xsdFilesDir;
     }
 
 }
