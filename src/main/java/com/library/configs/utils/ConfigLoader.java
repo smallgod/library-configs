@@ -10,8 +10,11 @@ import com.library.configs.DatabaseConfig;
 import com.library.configs.HttpClientPoolConfig;
 import com.library.configs.JettyServerConfig;
 import com.library.configs.JobsConfig;
+import com.library.datamodel.Constants.NamedConstants;
 import com.library.sgsharedinterface.RemoteRequest;
 import com.library.sgsharedinterface.SharedAppConfigIF;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -38,8 +41,14 @@ public class ConfigLoader {
         int repeatInterval = appConfig.getAdFetcherInterval();
         
         RemoteRequest dsmBridgeUnit = appConfig.getDSMBridgeUnit();
+        RemoteRequest centralUnit = appConfig.getAdCentralUnit();
+        
+        Map<String, RemoteRequest> remoteUnits = new HashMap<>();
+        
+        remoteUnits.put(NamedConstants.DSM_UNIT_REQUEST, dsmBridgeUnit);
+        remoteUnits.put(NamedConstants.CENTRAL_UNIT_REQUEST, centralUnit);
 
-        JobsConfig jobConfig = new JobsConfig(triggerName, jobName, groupName, repeatInterval);
+        JobsConfig jobConfig = new JobsConfig(triggerName, jobName, groupName, repeatInterval, remoteUnits);
 
         return jobConfig;
     }

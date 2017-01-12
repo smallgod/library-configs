@@ -6,6 +6,7 @@
 package com.library.configs;
 
 import com.library.sgsharedinterface.RemoteRequest;
+import java.util.Map;
 
 /**
  * We will use this Jobs COnfig class for all Jobs, not only the ad Fetcher Job
@@ -20,7 +21,7 @@ public class JobsConfig {
     private final String jobGroupName;
     private final int repeatInterval;
 
-    private final RemoteRequest remoteRequest;
+    private final Map<String, RemoteRequest> remoteRequestUnits;
 
     /**
      *
@@ -40,16 +41,16 @@ public class JobsConfig {
      * @param jobName
      * @param jobGroupName
      * @param repeatInterval
-     * @param remoteRequest
+     * @param remoteRequestUnit
      */
-    public JobsConfig(String jobTriggerName, String jobName, String jobGroupName, int repeatInterval, RemoteRequest remoteRequest) {
+    public JobsConfig(String jobTriggerName, String jobName, String jobGroupName, int repeatInterval, Map<String, RemoteRequest> remoteRequestUnit) {
 
         this.jobTriggerName = jobTriggerName;
         this.jobName = jobName;
         this.jobGroupName = jobGroupName;
         this.repeatInterval = repeatInterval;
 
-        this.remoteRequest = remoteRequest;
+        this.remoteRequestUnits = remoteRequestUnit;
     }
 
     public String getJobTriggerName() {
@@ -68,8 +69,8 @@ public class JobsConfig {
         return repeatInterval;
     }
 
-    public RemoteRequest getRemoteRequest() {
-        return remoteRequest;
+    public Map<String, RemoteRequest> getRemoteRequestUnits() {
+        return remoteRequestUnits;
     }
 
 }
