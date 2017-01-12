@@ -215,5 +215,4 @@ public class JettyServerConfig {
     public void setResponseHeaderSize(int responseHeaderSize) {
         this.responseHeaderSize = responseHeaderSize;
     }
-
 }

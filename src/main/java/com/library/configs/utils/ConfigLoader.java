@@ -6,9 +6,11 @@
 package com.library.configs.utils;
 
 import com.library.configs.DSMAdXpoBridgeConfigs;
+import com.library.configs.DatabaseConfig;
 import com.library.configs.HttpClientPoolConfig;
 import com.library.configs.JettyServerConfig;
 import com.library.configs.JobsConfig;
+import com.library.sgsharedinterface.RemoteRequest;
 import com.library.sgsharedinterface.SharedAppConfigIF;
 
 /**
@@ -23,9 +25,23 @@ public class ConfigLoader {
         this.appConfig = appConfig;
     }
 
-    public JobsConfig getJobsConfig() {
-        //To-Do
-        return null;
+    /**
+     * Get config parameters for the Ad Fetcher Job 
+     * 
+     * @return 
+     */
+    public JobsConfig getAdFetcherJobConfig() {
+
+        String triggerName = appConfig.getAdFetcherTriggerName();
+        String jobName = appConfig.getAdFetcherJobName();
+        String groupName = appConfig.getAdFetcherGroupName();
+        int repeatInterval = appConfig.getAdFetcherInterval();
+        
+        RemoteRequest dsmBridgeUnit = appConfig.getDSMBridgeUnit();
+
+        JobsConfig jobConfig = new JobsConfig(triggerName, jobName, groupName, repeatInterval);
+
+        return jobConfig;
     }
 
     /**
@@ -65,6 +81,20 @@ public class ConfigLoader {
     }
 
     /**
+     * Get the config parameters for the Database setup
+     *
+     * @return
+     */
+    public DatabaseConfig getDatabaseConfig() {
+
+        RemoteRequest remote = appConfig.getAdDbManagerUnit();
+
+        DatabaseConfig databaseConfig = new DatabaseConfig(remote);
+
+        return databaseConfig;
+    }
+
+    /**
      * Get the configuration parameters for the DSM8-AdvertXpo Bridge
      * application
      *
@@ -74,8 +104,25 @@ public class ConfigLoader {
 
         String webAppHomeDir = appConfig.getDsmWebAppDir();
         String xsdFilesDir = appConfig.getXsdFilesDir();
-        
+
         DSMAdXpoBridgeConfigs config = new DSMAdXpoBridgeConfigs(webAppHomeDir, xsdFilesDir);
         return config;
     }
+
+    /**
+     * Get the config parameters for the AdDisplayProcessor Unit
+     *
+     * @return
+     
+    public AdDisplayProcessorConfig getAdDisplayProcessorConfig() {
+
+        String adFetchJobTriggerName = appConfig.getAdFetcherTriggerName();
+        String adFetchJobName = appConfig.getAdFetcherJobName();
+        String adFetchJobGroupName = appConfig.getAdFetcherGroupName();
+
+        AdDisplayProcessorConfig adDisplayProcConfig = new AdDisplayProcessorConfig(adFetchJobTriggerName, adFetchJobName, adFetchJobGroupName);
+
+        return adDisplayProcConfig;
+    }
+    * */
 }
