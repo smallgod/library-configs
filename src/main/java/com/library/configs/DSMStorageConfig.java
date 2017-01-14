@@ -5,16 +5,18 @@
  */
 package com.library.configs;
 
+import com.library.datamodel.Constants.NamedConstants;
+
 /**
  *
  * @author smallgod
  */
-public class DSMAdXpoBridgeConfigs {
+public class DSMStorageConfig {
 
     private final String dsm8WebAppHome;
     private final String xsdFilesDir;
 
-    public DSMAdXpoBridgeConfigs(String dsm8WebAppHome, String xsdFilesDir) {
+    public DSMStorageConfig(String dsm8WebAppHome, String xsdFilesDir) {
         this.dsm8WebAppHome = dsm8WebAppHome;
         this.xsdFilesDir = xsdFilesDir;
     }
@@ -27,10 +29,14 @@ public class DSMAdXpoBridgeConfigs {
     }
 
     /**
-    * @return the xsdFilesDir
-    */
+     * @return the xsdFilesDir
+     */
     public String getXsdFilesDir() {
         return xsdFilesDir;
+    }
+
+    public int getCustomerId() {
+        return NamedConstants.CUSTOMER_ID;
     }
 
 }

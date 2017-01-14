@@ -5,15 +5,22 @@
  */
 package com.library.configs.utils;
 
-import com.library.configs.DSMAdXpoBridgeConfigs;
+import com.library.configs.DSMStorageConfig;
 import com.library.configs.DatabaseConfig;
+import com.library.configs.DisplayLayoutConfig;
 import com.library.configs.HttpClientPoolConfig;
 import com.library.configs.JettyServerConfig;
 import com.library.configs.JobsConfig;
 import com.library.datamodel.Constants.NamedConstants;
+import com.library.datamodel.Constants.ProgDisplayLayout;
+import com.library.datamodel.jaxb.config.v1_0.LayoutContentType;
+import com.library.datamodel.jaxb.config.v1_0.LayoutType;
 import com.library.sgsharedinterface.RemoteRequest;
 import com.library.sgsharedinterface.SharedAppConfigIF;
+import com.library.utilities.FileUtilities;
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,9 +36,9 @@ public class ConfigLoader {
     }
 
     /**
-     * Get config parameters for the Ad Fetcher Job 
-     * 
-     * @return 
+     * Get config parameters for the Ad Fetcher Job
+     *
+     * @return
      */
     public JobsConfig getAdFetcherJobConfig() {
 
@@ -39,18 +46,41 @@ public class ConfigLoader {
         String jobName = appConfig.getAdFetcherJobName();
         String groupName = appConfig.getAdFetcherGroupName();
         int repeatInterval = appConfig.getAdFetcherInterval();
-        
+
         RemoteRequest dsmBridgeUnit = appConfig.getDSMBridgeUnit();
         RemoteRequest centralUnit = appConfig.getAdCentralUnit();
-        
+
         Map<String, RemoteRequest> remoteUnits = new HashMap<>();
-        
+
         remoteUnits.put(NamedConstants.DSM_UNIT_REQUEST, dsmBridgeUnit);
         remoteUnits.put(NamedConstants.CENTRAL_UNIT_REQUEST, centralUnit);
 
         JobsConfig jobConfig = new JobsConfig(triggerName, jobName, groupName, repeatInterval, remoteUnits);
 
         return jobConfig;
+    }
+
+    /**
+     * Get config params for the different display layout types
+     * 
+     * @return 
+     */
+    public DisplayLayoutConfig getDisplayLayoutConfig() {
+
+        Map<String, LayoutType> layoutMap = new HashMap<>();
+
+        List<LayoutType> layoutTypes = appConfig.getLayoutConfig();
+
+        for (LayoutType layout : layoutTypes) {
+
+            String layoutName = layout.getName();
+            layoutMap.put(layoutName, layout);
+
+        }
+
+        DisplayLayoutConfig layoutConfig = new DisplayLayoutConfig(layoutMap);
+
+        return layoutConfig;
     }
 
     /**
@@ -102,36 +132,65 @@ public class ConfigLoader {
 
         return databaseConfig;
     }
-
+    
     /**
      * Get the configuration parameters for the DSM8-AdvertXpo Bridge
      * application
      *
      * @return
      */
-    public DSMAdXpoBridgeConfigs getDSMAdXpoBridgeConfigs() {
+    public DSMStorageConfig getDSMStorageConfigs() throws IllegalArgumentException, Exception {
 
-        String webAppHomeDir = appConfig.getDsmWebAppDir();
+        String webAppHomePath = appConfig.getDsmWebAppDir();
         String xsdFilesDir = appConfig.getXsdFilesDir();
 
-        DSMAdXpoBridgeConfigs config = new DSMAdXpoBridgeConfigs(webAppHomeDir, xsdFilesDir);
+        String webAppHomeDir = setWorkRootPath(webAppHomePath);
+
+        DSMStorageConfig config = new DSMStorageConfig(webAppHomeDir, xsdFilesDir);
         return config;
+    }
+
+    /**
+     * Sets the work root folder
+     *
+     * @param path the ROOT folder for the app
+     */
+    private String setWorkRootPath(String path) throws IllegalArgumentException, Exception {
+
+        //String path = rootFolder + File.separatorChar + "gnamp_work";
+        File dir = new File(path);
+        path = dir.getAbsolutePath();
+
+        if ((dir.exists()) && (!dir.isDirectory()) && (!dir.delete())) {
+            throw new IllegalArgumentException("path is not directory, delete file error: " + path);
+        }
+        if (!dir.exists()) {
+
+            if (!FileUtilities.createDirectory(path)) {
+                throw new Exception("Failed to create dsm work root directory");
+            }
+        }
+        String workRoot = path + File.separatorChar;
+
+        return workRoot;
     }
 
     /**
      * Get the config parameters for the AdDisplayProcessor Unit
      *
      * @return
-     
-    public AdDisplayProcessorConfig getAdDisplayProcessorConfig() {
-
-        String adFetchJobTriggerName = appConfig.getAdFetcherTriggerName();
-        String adFetchJobName = appConfig.getAdFetcherJobName();
-        String adFetchJobGroupName = appConfig.getAdFetcherGroupName();
-
-        AdDisplayProcessorConfig adDisplayProcConfig = new AdDisplayProcessorConfig(adFetchJobTriggerName, adFetchJobName, adFetchJobGroupName);
-
-        return adDisplayProcConfig;
-    }
-    * */
+     *
+     * public AdDisplayProcessorConfig getAdDisplayProcessorConfig() {
+     *
+     * String adFetchJobTriggerName = appConfig.getAdFetcherTriggerName();
+     * String adFetchJobName = appConfig.getAdFetcherJobName(); String
+     * adFetchJobGroupName = appConfig.getAdFetcherGroupName();
+     *
+     * AdDisplayProcessorConfig adDisplayProcConfig = new
+     * AdDisplayProcessorConfig(adFetchJobTriggerName, adFetchJobName,
+     * adFetchJobGroupName);
+     *
+     * return adDisplayProcConfig; }
+     *
+     */
 }
