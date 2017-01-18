@@ -16,6 +16,10 @@ import java.util.Map;
  */
 public class DisplayLayoutConfig {
 
+    private int nh;
+    private int nw;
+    private int nx;
+    private int ny;
     private final Map<String, LayoutType> layoutMap;
 
     /**
@@ -30,16 +34,18 @@ public class DisplayLayoutConfig {
     public Map<String, LayoutType> getLayoutMap() {
         return layoutMap;
     }
-    
+
     /**
      * Get layout config for given layout name
-     * 
+     *
      * @param layoutName
-     * @return 
+     * @return
      */
-    public LayoutType getLayoutConfig(String layoutName){
-        
+    public LayoutType getLayoutConfig(String layoutName) {
+
         return this.layoutMap.get(layoutName);
     }
+
+    
 
 }
