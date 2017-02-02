@@ -5,6 +5,7 @@
  */
 package com.library.configs.utils;
 
+import com.library.configs.AdCentralUploadConfig;
 import com.library.configs.DSMStorageConfig;
 import com.library.configs.DatabaseConfig;
 import com.library.configs.DisplayLayoutConfig;
@@ -12,8 +13,6 @@ import com.library.configs.HttpClientPoolConfig;
 import com.library.configs.JettyServerConfig;
 import com.library.configs.JobsConfig;
 import com.library.datamodel.Constants.NamedConstants;
-import com.library.datamodel.Constants.ProgDisplayLayout;
-import com.library.datamodel.jaxb.config.v1_0.LayoutContentType;
 import com.library.datamodel.jaxb.config.v1_0.LayoutType;
 import com.library.sgsharedinterface.RemoteRequest;
 import com.library.sgsharedinterface.SharedAppConfigIF;
@@ -47,23 +46,44 @@ public class ConfigLoader {
         String groupName = appConfig.getAdFetcherGroupName();
         int repeatInterval = appConfig.getAdFetcherInterval();
 
-        RemoteRequest dsmBridgeUnit = appConfig.getDSMBridgeUnit();
-        RemoteRequest centralUnit = appConfig.getAdCentralUnit();
-
-        Map<String, RemoteRequest> remoteUnits = new HashMap<>();
-
-        remoteUnits.put(NamedConstants.DSM_UNIT_REQUEST, dsmBridgeUnit);
-        remoteUnits.put(NamedConstants.CENTRAL_UNIT_REQUEST, centralUnit);
-
+        Map<String, RemoteRequest> remoteUnits = getRemoteUnits();
         JobsConfig jobConfig = new JobsConfig(triggerName, jobName, groupName, repeatInterval, remoteUnits);
 
         return jobConfig;
     }
 
+    public JobsConfig getMidnightCallJobConfig() {
+
+        String triggerName = appConfig.getMidnightCallTriggerName();
+        String jobName = appConfig.getMidnightCallJobName();
+        String groupName = appConfig.getMidnightCallGroupName();
+        int repeatInterval = appConfig.getMidnightCallInterval();
+
+        Map<String, RemoteRequest> remoteUnits = getRemoteUnits();
+        JobsConfig jobConfig = new JobsConfig(triggerName, jobName, groupName, repeatInterval, remoteUnits);
+
+        return jobConfig;
+    }
+
+    private Map<String, RemoteRequest> getRemoteUnits() {
+
+        RemoteRequest dsmBridgeUnit = appConfig.getDSMBridgeUnit();
+        RemoteRequest centralUnit = appConfig.getAdCentralUnit();
+        RemoteRequest adDisplayUnt = appConfig.getAdDisplayUnit();
+
+        Map<String, RemoteRequest> remoteUnits = new HashMap<>();
+
+        remoteUnits.put(NamedConstants.DSM_UNIT_REQUEST, dsmBridgeUnit);
+        remoteUnits.put(NamedConstants.CENTRAL_UNIT_REQUEST, centralUnit);
+        remoteUnits.put(NamedConstants.ADDISPLAY_UNIT_REQUEST, adDisplayUnt);
+
+        return remoteUnits;
+    }
+
     /**
      * Get config params for the different display layout types
-     * 
-     * @return 
+     *
+     * @return
      */
     public DisplayLayoutConfig getDisplayLayoutConfig() {
 
@@ -132,12 +152,13 @@ public class ConfigLoader {
 
         return databaseConfig;
     }
-    
+
     /**
      * Get the configuration parameters for the DSM8-AdvertXpo Bridge
      * application
      *
      * @return
+     * @throws java.lang.Exception
      */
     public DSMStorageConfig getDSMStorageConfigs() throws IllegalArgumentException, Exception {
 
@@ -148,6 +169,19 @@ public class ConfigLoader {
 
         DSMStorageConfig config = new DSMStorageConfig(webAppHomeDir, xsdFilesDir);
         return config;
+    }
+
+    /**
+     * Get config parameters for uploads going to the central unit server
+     *
+     * @return
+     */
+    public AdCentralUploadConfig getAdCentralFileUploadConfig() {
+        String tempDir = appConfig.getTempDir();
+        String previewUrl = appConfig.getAdCentralUnit().getPreviewUrl();
+
+        AdCentralUploadConfig fileUploadConfig = new AdCentralUploadConfig(tempDir, previewUrl);
+        return fileUploadConfig;
     }
 
     /**
