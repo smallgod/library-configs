@@ -12,6 +12,7 @@ import com.library.configs.DisplayLayoutConfig;
 import com.library.configs.HttpClientPoolConfig;
 import com.library.configs.JettyServerConfig;
 import com.library.configs.JobsConfig;
+import com.library.configs.RemoteUnitConfig;
 import com.library.datamodel.Constants.NamedConstants;
 import com.library.datamodel.jaxb.config.v1_0.LayoutType;
 import com.library.sgsharedinterface.RemoteRequest;
@@ -78,6 +79,23 @@ public class ConfigLoader {
         remoteUnits.put(NamedConstants.ADDISPLAY_UNIT_REQUEST, adDisplayUnt);
 
         return remoteUnits;
+    }
+    
+    public RemoteUnitConfig getRemoteUnitConfig(){
+        
+        
+        RemoteRequest dsmBridgeUnit = appConfig.getDSMBridgeUnit();
+        RemoteRequest centralUnit = appConfig.getAdCentralUnit();
+        RemoteRequest adDisplayUnt = appConfig.getAdDisplayUnit();
+        
+        Map<String, RemoteRequest> remoteUnits = new HashMap<>();
+
+        remoteUnits.put(NamedConstants.DSM_UNIT_REQUEST, dsmBridgeUnit);
+        remoteUnits.put(NamedConstants.CENTRAL_UNIT_REQUEST, centralUnit);
+        remoteUnits.put(NamedConstants.ADDISPLAY_UNIT_REQUEST, adDisplayUnt);
+        
+        RemoteUnitConfig remoteUnitConfig = new RemoteUnitConfig(remoteUnits);
+        
     }
 
     /**
