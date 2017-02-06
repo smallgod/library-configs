@@ -5,6 +5,7 @@
  */
 package com.library.configs;
 
+import com.library.datamodel.Constants.NamedConstants;
 import com.library.sgsharedinterface.RemoteRequest;
 import java.util.Map;
 
@@ -14,7 +15,34 @@ import java.util.Map;
  */
 public class RemoteUnitConfig {
 
+    private final Map<String, RemoteRequest> remoteUnits;
+
     public RemoteUnitConfig(Map<String, RemoteRequest> remoteUnits) {
+        this.remoteUnits = remoteUnits;
+    }
+
+    public RemoteRequest getAdDisplayRemoteUnit() {
+
+        return getRemoteUnits().get(NamedConstants.ADDISPLAY_UNIT_REQUEST);
+    }
+
+    public RemoteRequest getAdCentralRemoteUnit() {
+
+        return getRemoteUnits().get(NamedConstants.CENTRAL_UNIT_REQUEST);
+    }
+
+    public RemoteRequest getAdDbManagerRemoteUnit() {
+
+        return getRemoteUnits().get(NamedConstants.ADDBManager_UNIT_REQUEST);
+    }
+
+    public RemoteRequest getDSMBridgeRemoteUnit() {
+
+        return getRemoteUnits().get(NamedConstants.DSM_UNIT_REQUEST);
+    }
+
+    public Map<String, RemoteRequest> getRemoteUnits() {
+        return remoteUnits;
     }
 
 }

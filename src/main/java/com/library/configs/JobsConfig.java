@@ -21,7 +21,7 @@ public class JobsConfig {
     private final String jobGroupName;
     private final int repeatInterval;
 
-    private final Map<String, RemoteRequest> remoteRequestUnits;
+    private final RemoteUnitConfig remoteUnitConfig;
 
     /**
      *
@@ -41,16 +41,16 @@ public class JobsConfig {
      * @param jobName
      * @param jobGroupName
      * @param repeatInterval
-     * @param remoteRequestUnit
+     * @param remoteUnitConfig
      */
-    public JobsConfig(String jobTriggerName, String jobName, String jobGroupName, int repeatInterval, Map<String, RemoteRequest> remoteRequestUnit) {
+    public JobsConfig(String jobTriggerName, String jobName, String jobGroupName, int repeatInterval, RemoteUnitConfig remoteUnitConfig) {
 
         this.jobTriggerName = jobTriggerName;
         this.jobName = jobName;
         this.jobGroupName = jobGroupName;
         this.repeatInterval = repeatInterval;
 
-        this.remoteRequestUnits = remoteRequestUnit;
+        this.remoteUnitConfig = remoteUnitConfig;
     }
 
     public String getJobTriggerName() {
@@ -69,8 +69,8 @@ public class JobsConfig {
         return repeatInterval;
     }
 
-    public Map<String, RemoteRequest> getRemoteRequestUnits() {
-        return remoteRequestUnits;
+    public RemoteUnitConfig getRemoteUnitConfig() {
+        return remoteUnitConfig;
     }
 
 }

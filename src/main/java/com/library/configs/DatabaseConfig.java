@@ -13,14 +13,14 @@ import com.library.sgsharedinterface.RemoteRequest;
  */
 public class DatabaseConfig {
 
-    private final RemoteRequest remoteUnit;
+    private final RemoteRequest dbRemoteUnit;
 
-    public DatabaseConfig(RemoteRequest remote) {
-        this.remoteUnit = remote;
+    public DatabaseConfig(RemoteRequest dbRemoteUnit) {
+        this.dbRemoteUnit = dbRemoteUnit;
     }
 
-    public RemoteRequest getRemoteUnit() {
-        return remoteUnit;
+    public RemoteRequest getDbRemoteUnit() {
+        return dbRemoteUnit;
     }
 
 }

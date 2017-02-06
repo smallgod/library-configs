@@ -9,6 +9,7 @@ import com.library.configs.AdCentralUploadConfig;
 import com.library.configs.DSMStorageConfig;
 import com.library.configs.DatabaseConfig;
 import com.library.configs.DisplayLayoutConfig;
+import com.library.configs.HibernateConfig;
 import com.library.configs.HttpClientPoolConfig;
 import com.library.configs.JettyServerConfig;
 import com.library.configs.JobsConfig;
@@ -32,6 +33,7 @@ public class ConfigLoader {
     private final SharedAppConfigIF appConfig;
 
     public ConfigLoader(SharedAppConfigIF appConfig) {
+        
         this.appConfig = appConfig;
     }
 
@@ -47,8 +49,8 @@ public class ConfigLoader {
         String groupName = appConfig.getAdFetcherGroupName();
         int repeatInterval = appConfig.getAdFetcherInterval();
 
-        Map<String, RemoteRequest> remoteUnits = getRemoteUnits();
-        JobsConfig jobConfig = new JobsConfig(triggerName, jobName, groupName, repeatInterval, remoteUnits);
+        RemoteUnitConfig remoteUnitConfig = getRemoteUnitConfig();
+        JobsConfig jobConfig = new JobsConfig(triggerName, jobName, groupName, repeatInterval, remoteUnitConfig);
 
         return jobConfig;
     }
@@ -60,25 +62,10 @@ public class ConfigLoader {
         String groupName = appConfig.getMidnightCallGroupName();
         int repeatInterval = appConfig.getMidnightCallInterval();
 
-        Map<String, RemoteRequest> remoteUnits = getRemoteUnits();
-        JobsConfig jobConfig = new JobsConfig(triggerName, jobName, groupName, repeatInterval, remoteUnits);
+        RemoteUnitConfig remoteUnitConfig = getRemoteUnitConfig();
+        JobsConfig jobConfig = new JobsConfig(triggerName, jobName, groupName, repeatInterval, remoteUnitConfig);
 
         return jobConfig;
-    }
-
-    private Map<String, RemoteRequest> getRemoteUnits() {
-
-        RemoteRequest dsmBridgeUnit = appConfig.getDSMBridgeUnit();
-        RemoteRequest centralUnit = appConfig.getAdCentralUnit();
-        RemoteRequest adDisplayUnt = appConfig.getAdDisplayUnit();
-
-        Map<String, RemoteRequest> remoteUnits = new HashMap<>();
-
-        remoteUnits.put(NamedConstants.DSM_UNIT_REQUEST, dsmBridgeUnit);
-        remoteUnits.put(NamedConstants.CENTRAL_UNIT_REQUEST, centralUnit);
-        remoteUnits.put(NamedConstants.ADDISPLAY_UNIT_REQUEST, adDisplayUnt);
-
-        return remoteUnits;
     }
     
     public RemoteUnitConfig getRemoteUnitConfig(){
@@ -87,14 +74,17 @@ public class ConfigLoader {
         RemoteRequest dsmBridgeUnit = appConfig.getDSMBridgeUnit();
         RemoteRequest centralUnit = appConfig.getAdCentralUnit();
         RemoteRequest adDisplayUnt = appConfig.getAdDisplayUnit();
+        RemoteRequest adDbManagerUnit = appConfig.getAdDbManagerUnit();
         
         Map<String, RemoteRequest> remoteUnits = new HashMap<>();
 
         remoteUnits.put(NamedConstants.DSM_UNIT_REQUEST, dsmBridgeUnit);
         remoteUnits.put(NamedConstants.CENTRAL_UNIT_REQUEST, centralUnit);
         remoteUnits.put(NamedConstants.ADDISPLAY_UNIT_REQUEST, adDisplayUnt);
+        remoteUnits.put(NamedConstants.ADDBManager_UNIT_REQUEST, adDbManagerUnit);
         
         RemoteUnitConfig remoteUnitConfig = new RemoteUnitConfig(remoteUnits);
+        return remoteUnitConfig;
         
     }
 
@@ -158,15 +148,30 @@ public class ConfigLoader {
     }
 
     /**
+     * Get the Custom Hibernate configuration parameters
+     * 
+     * @return 
+     */
+    public HibernateConfig getHibernateConfig(){
+        
+        String hibernateFilePath = appConfig.getHibernatepropsAbsPath();
+        
+        HibernateConfig config = new HibernateConfig(hibernateFilePath);
+        
+        return config;
+    }
+    /**
      * Get the config parameters for the Database setup
      *
      * @return
      */
     public DatabaseConfig getDatabaseConfig() {
+        
+        RemoteUnitConfig remoteUnitConfig = getRemoteUnitConfig();
+        
+        RemoteRequest dbManagerUnit = remoteUnitConfig.getAdDbManagerRemoteUnit();
 
-        RemoteRequest remote = appConfig.getAdDbManagerUnit();
-
-        DatabaseConfig databaseConfig = new DatabaseConfig(remote);
+        DatabaseConfig databaseConfig = new DatabaseConfig(dbManagerUnit);
 
         return databaseConfig;
     }
