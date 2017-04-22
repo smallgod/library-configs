@@ -5,9 +5,6 @@
  */
 package com.library.configs;
 
-import com.library.sgsharedinterface.RemoteRequest;
-import java.util.Map;
-
 /**
  * We will use this Jobs COnfig class for all Jobs, not only the ad Fetcher Job
  * Tweek, add a constructor if necessary to suit other jobs
