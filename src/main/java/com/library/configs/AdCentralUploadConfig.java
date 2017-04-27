@@ -27,6 +27,13 @@ public class AdCentralUploadConfig {
     public String getFileUploadDir() {
         return this.tempDir + File.separator + "uploads";
     }
+    
+    /**
+     * @return the thumb dir
+     */
+    public String getThumbDir() {
+        return this.tempDir + File.separator + "thumbs";
+    }
 
     public String getPreviewUrl() {
         return previewUrl;
