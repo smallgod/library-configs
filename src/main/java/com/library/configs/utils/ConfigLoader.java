@@ -33,7 +33,7 @@ public class ConfigLoader {
     private final SharedAppConfigIF appConfig;
 
     public ConfigLoader(SharedAppConfigIF appConfig) {
-        
+
         this.appConfig = appConfig;
     }
 
@@ -55,6 +55,42 @@ public class ConfigLoader {
         return jobConfig;
     }
 
+    /**
+     * Get Job configs for Ad payment processor job
+     *
+     * @return
+     */
+    public JobsConfig getAdPaymentJobConfig() {
+
+        String triggerName = appConfig.getAdPaymentTriggerName();
+        String jobName = appConfig.getAdPaymentJobName();
+        String groupName = appConfig.getAdPaymentGroupName();
+        int repeatInterval = appConfig.getAdPaymentInterval();
+
+        RemoteUnitConfig remoteUnitConfig = getRemoteUnitConfig();
+        JobsConfig jobConfig = new JobsConfig(triggerName, jobName, groupName, repeatInterval, remoteUnitConfig);
+
+        return jobConfig;
+    }
+
+    /**
+     * Get Job configs for Ad campaign processor job
+     *
+     * @return
+     */
+    public JobsConfig getAdCampaignProcessorJobConfig() {
+
+        String triggerName = appConfig.getAdCampaignProcessorTriggerName();
+        String jobName = appConfig.getAdCampaignProcessorJobName();
+        String groupName = appConfig.getAdCampaignProcessorGroupName();
+        int repeatInterval = appConfig.getAdCampaignProcessorInterval();
+
+        RemoteUnitConfig remoteUnitConfig = getRemoteUnitConfig();
+        JobsConfig jobConfig = new JobsConfig(triggerName, jobName, groupName, repeatInterval, remoteUnitConfig);
+
+        return jobConfig;
+    }
+
     public JobsConfig getMidnightCallJobConfig() {
 
         String triggerName = appConfig.getMidnightCallTriggerName();
@@ -67,25 +103,24 @@ public class ConfigLoader {
 
         return jobConfig;
     }
-    
-    public RemoteUnitConfig getRemoteUnitConfig(){
-        
-        
+
+    public RemoteUnitConfig getRemoteUnitConfig() {
+
         RemoteRequest dsmBridgeUnit = appConfig.getDSMBridgeUnit();
         RemoteRequest centralUnit = appConfig.getAdCentralUnit();
         RemoteRequest adDisplayUnt = appConfig.getAdDisplayUnit();
         RemoteRequest adDbManagerUnit = appConfig.getAdDbManagerUnit();
-        
+
         Map<String, RemoteRequest> remoteUnits = new HashMap<>();
 
         remoteUnits.put(NamedConstants.DSM_UNIT_REQUEST, dsmBridgeUnit);
         remoteUnits.put(NamedConstants.CENTRAL_UNIT_REQUEST, centralUnit);
         remoteUnits.put(NamedConstants.ADDISPLAY_UNIT_REQUEST, adDisplayUnt);
         remoteUnits.put(NamedConstants.ADDBManager_UNIT_REQUEST, adDbManagerUnit);
-        
+
         RemoteUnitConfig remoteUnitConfig = new RemoteUnitConfig(remoteUnits);
         return remoteUnitConfig;
-        
+
     }
 
     /**
@@ -149,35 +184,33 @@ public class ConfigLoader {
 
     /**
      * Get the Custom Hibernate configuration parameters
-     * 
-     * @return 
+     *
+     * @return
      */
-    public HibernateConfig getHibernateConfig(){
-        
+    public HibernateConfig getHibernateConfig() {
+
         String hibernateFilePath = appConfig.getHibernatepropsAbsPath();
-        
+
         HibernateConfig config = new HibernateConfig(hibernateFilePath);
-        
+
         return config;
     }
+
     /**
      * Get the config parameters for the Database setup
      *
      * @return
      */
     public DatabaseConfig getDatabaseConfig() {
-        
+
         RemoteUnitConfig remoteUnitConfig = getRemoteUnitConfig();
-        
+
         RemoteRequest dbManagerUnit = remoteUnitConfig.getAdDbManagerRemoteUnit();
 
         DatabaseConfig databaseConfig = new DatabaseConfig(dbManagerUnit);
 
         return databaseConfig;
     }
-    
-    
-    
 
     /**
      * Get the configuration parameters for the DSM8-AdvertXpo Bridge
