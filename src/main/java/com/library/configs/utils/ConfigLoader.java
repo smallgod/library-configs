@@ -38,16 +38,16 @@ public class ConfigLoader {
     }
 
     /**
-     * Get config parameters for the Ad Fetcher Job
+     * Get config parameters for the Ad Scheduler/Display Job
      *
      * @return
      */
-    public JobsConfig getAdFetcherJobConfig() {
+    public JobsConfig getAdDisplayJobConfig() {
 
-        String triggerName = appConfig.getAdFetcherTriggerName();
-        String jobName = appConfig.getAdFetcherJobName();
-        String groupName = appConfig.getAdFetcherGroupName();
-        int repeatInterval = appConfig.getAdFetcherInterval();
+        String triggerName = appConfig.getAdDisplayProcessorTriggerName();
+        String jobName = appConfig.getAdDisplayProcessorobName();
+        String groupName = appConfig.getAdDisplayProcessorGroupName();
+        int repeatInterval = appConfig.getAdDisplayProcessorInterval();
 
         RemoteUnitConfig remoteUnitConfig = getRemoteUnitConfig();
         JobsConfig jobConfig = new JobsConfig(triggerName, jobName, groupName, repeatInterval, remoteUnitConfig);
@@ -62,10 +62,10 @@ public class ConfigLoader {
      */
     public JobsConfig getAdPaymentJobConfig() {
 
-        String triggerName = appConfig.getAdPaymentTriggerName();
-        String jobName = appConfig.getAdPaymentJobName();
-        String groupName = appConfig.getAdPaymentGroupName();
-        int repeatInterval = appConfig.getAdPaymentInterval();
+        String triggerName = appConfig.getAdPaymentProcessorTriggerName();
+        String jobName = appConfig.getAdPaymentProcessorJobName();
+        String groupName = appConfig.getAdPaymentProcessorGroupName();
+        int repeatInterval = appConfig.getAdPaymentProcessorInterval();
 
         RemoteUnitConfig remoteUnitConfig = getRemoteUnitConfig();
         JobsConfig jobConfig = new JobsConfig(triggerName, jobName, groupName, repeatInterval, remoteUnitConfig);
