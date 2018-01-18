@@ -27,7 +27,8 @@ public class JobsConfig {
      * @param jobGroupName
      * @param repeatInterval
      */
-    public JobsConfig(String jobTriggerName, String jobName, String jobGroupName, int repeatInterval) {
+    public JobsConfig(String jobTriggerName, String jobName, 
+                      String jobGroupName, int repeatInterval) {
 
         this(jobTriggerName, jobName, jobGroupName, repeatInterval, null);
     }
@@ -40,7 +41,8 @@ public class JobsConfig {
      * @param repeatInterval
      * @param remoteUnitConfig
      */
-    public JobsConfig(String jobTriggerName, String jobName, String jobGroupName, int repeatInterval, RemoteUnitConfig remoteUnitConfig) {
+    public JobsConfig(String jobTriggerName, String jobName, String jobGroupName, 
+                      int repeatInterval, RemoteUnitConfig remoteUnitConfig) {
 
         this.jobTriggerName = jobTriggerName;
         this.jobName = jobName;
