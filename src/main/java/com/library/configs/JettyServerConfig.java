@@ -6,20 +6,6 @@ package com.library.configs;
  */
 public class JettyServerConfig {
 
-//    String contextPath = sharedAppConfigsIF.getContextpath();
-//    String webAppWarFile = sharedAppConfigsIF.getWebappwarfile();
-//    int HTTP_PORT = sharedAppConfigsIF.getHttpport();
-//    int HTTPS_PORT = sharedAppConfigsIF.getHttpsport();
-//    int ADMIN_PORT = sharedAppConfigsIF.getAdminport();
-//    int OUTPUT_BUFFER_SIZE = sharedAppConfigsIF.getOutputbuffersize();
-//    int REQUEST_HEADER_SIZE = sharedAppConfigsIF.getRequestheadersize();
-//    int RESPONSE_HEADER_SIZE = sharedAppConfigsIF.getResponseheadersize();
-//    String KEYSTORE_PATH = sharedAppConfigsIF.getKeystorepass();
-//    String KEYSTORE_PASS = sharedAppConfigsIF.getKeystorepass();
-//    String KEYSTORE_MGR_PASS = sharedAppConfigsIF.getKeystoremanagerpass();
-//    String[] WELCOME_FILES = (sharedAppConfigsIF.getWelcomefiles().trim()).split("\\s*,\\s*");
-//    String resourceBase = sharedAppConfigsIF.getResourceDirAbsPath();
-//    String webDescriptor = resourceBase + sharedAppConfigsIF.getWebxmlfile();
     private final String contextPath;
     private final String resourceBase;
     private final String webDescriptor;
